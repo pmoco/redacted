@@ -6,6 +6,7 @@ using UnityEngine;
 public class DeselectView : MonoBehaviour
 {
 
+
     public GameObject ObjectReturn;
 
 
@@ -48,7 +49,7 @@ bool isFirstClick = true;
                     if (!ArrayContainsCollider(collidersToIgnore, hit.collider))
                     {
                         // Mouse click was outside of the colliderToCheck
-                        Debug.Log("Mouse click was outside of the colliderXXXXXX");
+                        Debug.Log("Mouse click was peepeepoopoo");
                         gameObject.SetActive(false);
                             
                         if (ObjectReturn != null)
