@@ -5,10 +5,26 @@ using UnityEngine;
 
 public class DeselectView : MonoBehaviour
 {
-        public Collider colliderToCheck; // Collider to check against
+
     public GameObject ObjectReturn;
 
-    bool isFirstClick = true;
+
+    public Collider[] collidersToIgnore; // Array of colliders to ignore
+    
+   private bool ArrayContainsCollider(Collider[] colliders, Collider collider)
+    {
+        foreach (Collider c in colliders)
+        {
+            if (c == collider)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+bool isFirstClick = true;
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
@@ -29,7 +45,7 @@ public class DeselectView : MonoBehaviour
                 if (Physics.Raycast(ray, out hit))
                 {
                     // Check if the collider hit is different from the colliderToCheck
-                    if (hit.collider != colliderToCheck)
+                    if (!ArrayContainsCollider(collidersToIgnore, hit.collider))
                     {
                         // Mouse click was outside of the colliderToCheck
                         Debug.Log("Mouse click was outside of the colliderXXXXXX");
@@ -42,6 +58,9 @@ public class DeselectView : MonoBehaviour
                         Debug.Log("Mouse click was outside of any collider");
                         isFirstClick = true;
                         // Place your logic here to show the object and hide the object containing the script
+                    }
+                    else {
+                    Debug.Log(hit.collider.name);
                     }
                 }
                 else
