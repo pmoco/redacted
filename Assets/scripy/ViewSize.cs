@@ -11,15 +11,16 @@ public class ViewSize: MonoBehaviour
 
 
     void OnMouseDown() {
-        
-        Transform x = transform; 
+
+        Vector3 size = transform.localScale;
+        Vector3 pos = transform.position;
 
 
         transform.localScale =newSize;
         transform.position = newPosition;
 
-        newSize = x.position;
-        newPosition= x.position;
+        newSize =size;
+        newPosition= pos;
 
 
     }

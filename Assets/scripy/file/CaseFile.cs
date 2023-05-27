@@ -25,6 +25,8 @@ public class CaseFile : MonoBehaviour
 
     public Decision decision;
 
+    public GameObject stamp;
+
     public GameObject fbUrgent;
     public GameObject fbSuper;
     public GameObject fbIgnore;
@@ -43,10 +45,12 @@ public class CaseFile : MonoBehaviour
 
     private void loadVariables()
     {
-        Transform table= transform.Find("onTable");
+        Transform table = transform.Find("onTable");
+        Transform deliver = transform.Find("Deliverspot");
         Transform open = transform.Find("Open");
         Transform file = open.transform.Find("File");
         Transform png = open.transform.Find("photo");
+        
 
 
         // Check if the child object is found
@@ -62,6 +66,21 @@ public class CaseFile : MonoBehaviour
         else
         {
             Debug.LogError("Child object named 'onTable' not found!");
+        }
+
+        if (deliver != null)
+        {
+            SpriteRenderer spriteRenderer = deliver.GetComponent<SpriteRenderer>();
+
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.sprite = sprite;
+            }
+        }
+
+        else
+        {
+            Debug.LogError("Child object named 'Deliverspot' not found!");
         }
 
         // Check if the child object is found
