@@ -27,9 +27,9 @@ public class CaseFile : MonoBehaviour
 
     public GameObject stamp;
 
-    public GameObject fbUrgent;
-    public GameObject fbSuper;
-    public GameObject fbIgnore;
+    public Sprite fbUrgent;
+    public Sprite fbSuper;
+    public Sprite fbIgnore;
 
 
     void Start()
@@ -115,6 +115,33 @@ public class CaseFile : MonoBehaviour
 
 
 
+
+
+    }
+
+
+    public void DeliverCase()
+    {
+        GameObject feedback = transform.Find("feedBack").gameObject;
+        SpriteRenderer sp = feedback.transform.Find("closeUp").GetComponent<SpriteRenderer>();
+
+
+
+       switch (decision)
+        {
+            case Decision.Supernatural:
+                sp.sprite = fbSuper;
+                break;
+            case Decision.Urgent:
+                sp.sprite = fbUrgent;
+                break;
+            case Decision.Ignore:
+                sp.sprite = fbIgnore;
+                break;
+
+        }
+
+        feedback.SetActive(true);
 
 
     }

@@ -28,8 +28,6 @@ public class StampScript : MonoBehaviour
 
         deliver.gameObject.SetActive(true);
 
-
-
     }
 
     private void OnMouseOver()

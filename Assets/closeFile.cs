@@ -27,6 +27,7 @@ public class closeFile : MonoBehaviour
         table.gameObject.SetActive(false);
         deliver.gameObject.SetActive(true);
         transform.parent.gameObject.SetActive(false);
+        cf.DeliverCase();
 
     }
 }
