@@ -90,7 +90,7 @@ public class Scanner : MonoBehaviour
 
         if (spriteRenderer != null)
         {
-            spriteRenderer.sprite = cf.photo;
+            spriteRenderer.sprite = cf.getPhoto("default");
         }
         currentFile = cf;
     }
@@ -102,7 +102,7 @@ public class Scanner : MonoBehaviour
         {
             GameObject computer  = GameObject.Find("computer");
 
-            computer.transform.Find("imageOnScreen").GetComponent<SpriteRenderer>().sprite = currentFile.png_red;
+            computer.transform.Find("imageOnScreen").GetComponent<SpriteRenderer>().sprite = currentFile.getPhoto("red");
             computer.transform.Find("imageOnScreen").gameObject.SetActive(true);
 
             Transform photo = transform.Find("photo");
@@ -123,7 +123,7 @@ public class Scanner : MonoBehaviour
         {
             GameObject computer = GameObject.Find("computer");
 
-            computer.transform.Find("imageOnScreen").GetComponent<SpriteRenderer>().sprite = currentFile.png_blue;
+            computer.transform.Find("imageOnScreen").GetComponent<SpriteRenderer>().sprite = currentFile.getPhoto("blue");
             computer.transform.Find("imageOnScreen").gameObject.SetActive(true);
 
             Transform photo = transform.Find("photo");
@@ -145,7 +145,7 @@ public class Scanner : MonoBehaviour
         {
             GameObject computer = GameObject.Find("computer");
 
-            computer.transform.Find("imageOnScreen").GetComponent<SpriteRenderer>().sprite = currentFile.png_green;
+            computer.transform.Find("imageOnScreen").GetComponent<SpriteRenderer>().sprite = currentFile.getPhoto("green");
             computer.transform.Find("imageOnScreen").gameObject.SetActive(true);
 
             Transform photo = transform.Find("photo");

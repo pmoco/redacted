@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
+[System.Serializable]
 public class CaseFile : MonoBehaviour
 {
-    // Start is called before the first frame update
-   public  enum Decision
+    [System.Serializable]
+    public enum Decision
     {
         NULL,
         Urgent,
@@ -14,26 +17,31 @@ public class CaseFile : MonoBehaviour
         Ignore
     }
 
-    public int id;
+    public string id;
     public Sprite sprite;
     public Sprite spriteOpen;
-
-    public Sprite photo;
-    public Sprite png_red;
-    public Sprite png_blue;
-    public Sprite png_green;
+    public string report;
 
     public Decision decision;
 
     public GameObject stamp;
 
-    public Sprite fbUrgent;
-    public Sprite fbSuper;
-    public Sprite fbIgnore;
+    public string fb_sup;
+    public string fb_close;
+    public string fb_dispatch;
+
+    public Sprite photo;
+    public Sprite png_red;
+    public  Sprite png_blue;
+    public Sprite png_green;
+    public Sprite reading;
+
 
 
     void Start()
     {
+
+
         loadVariables();
     }
 
@@ -43,6 +51,28 @@ public class CaseFile : MonoBehaviour
         
     }
 
+    public void LoadExternalCaseFile(CaseFile cf)
+    {
+        // Set the properties of the current CaseFile object using the properties of the external CaseFile
+
+        id = cf.id;
+        report = cf.report;
+        reading = cf.reading;
+        png_red= cf.png_red;
+        png_blue= cf.png_blue;
+        png_green = cf.png_green;
+        photo= cf.photo;
+
+        fb_sup = cf.fb_sup;
+        fb_close = cf.fb_close;
+        fb_dispatch = cf.fb_dispatch;
+
+        // Optionally, you can also call the Load() function to load the sprites using the specified paths
+        loadVariables();
+    }
+
+
+
     private void loadVariables()
     {
         Transform table = transform.Find("onTable");
@@ -50,7 +80,10 @@ public class CaseFile : MonoBehaviour
         Transform open = transform.Find("Open");
         Transform file = open.transform.Find("File");
         Transform png = open.transform.Find("photo");
-        
+
+        Transform text = file.transform.Find("Canvas").transform.Find("Text");
+
+
 
 
         // Check if the child object is found
@@ -112,6 +145,17 @@ public class CaseFile : MonoBehaviour
             Debug.LogError("Child object named 'photo' not found!");
         }
 
+        if (text != null)
+        {
+            Debug.Log("slçdkfhasjdbg");
+            Debug.Log(text);
+
+            Text t = text.GetComponent<Text>();
+
+            t.text = report;
+
+        }
+
 
 
 
@@ -127,21 +171,49 @@ public class CaseFile : MonoBehaviour
 
 
 
-       switch (decision)
+       //switch (decision)
+       // {
+       //     case Decision.Supernatural:
+       //         sp.sprite = fbSuper;
+       //         break;
+       //     case Decision.Urgent:
+       //         sp.sprite = fbUrgent;
+       //         break;
+       //     case Decision.Ignore:
+       //         sp.sprite = fbIgnore;
+       //         break;
+
+       // }
+
+        feedback.SetActive(true);
+
+
+    }
+
+    public Sprite getPhoto(string version)
+    {
+        switch (version)
         {
-            case Decision.Supernatural:
-                sp.sprite = fbSuper;
-                break;
-            case Decision.Urgent:
-                sp.sprite = fbUrgent;
-                break;
-            case Decision.Ignore:
-                sp.sprite = fbIgnore;
-                break;
+            case "green":
+                return png_green;
+
+
+            case "blue":
+                return png_blue;
+
+
+            case "red":
+                return png_red;
+
+
+            case "default":
+                return photo;
+            default:
+                return null;
 
         }
 
-        feedback.SetActive(true);
+
 
 
     }
@@ -149,4 +221,4 @@ public class CaseFile : MonoBehaviour
 
 
 
-}
+    }
