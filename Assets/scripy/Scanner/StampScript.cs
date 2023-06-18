@@ -36,7 +36,7 @@ public class StampScript : MonoBehaviour
 
 
 
-        sp.sortingOrder= 10;
+        sp.sortingOrder= 20;
 
 
     }

@@ -6,7 +6,7 @@ using static CaseFile;
 
 using UnityEngine.Events;
 using Newtonsoft.Json.Serialization;
-using UnityEditor.PackageManager;
+using System.Diagnostics.Contracts;
 
 [System.Serializable] 
 public class RoundManager : MonoBehaviour
@@ -45,8 +45,8 @@ public class RoundManager : MonoBehaviour
     public List<UnityEvent> onLunch;
     public List<UnityEvent> onEnd;
 
- 
 
+    Logger logger;
 
     private void Start()
     {
@@ -56,6 +56,12 @@ public class RoundManager : MonoBehaviour
 
         roundIndex = PlayerPrefs.GetInt("Round");
         caseOffset = PlayerPrefs.GetInt("caseOffset");
+
+
+        Debug.Log("CASE COUNTER  =  " + caseOffset);
+
+
+        logger =GameObject.Find("Logger").GetComponent<Logger>();
 
         afternoon = false;
         isBreakActive = false;
@@ -90,6 +96,8 @@ public class RoundManager : MonoBehaviour
 
         int nCases = casePerRound[roundIndex];
 
+        caseLoader.caseCounter = caseOffset;
+
         switch (nCases)
         {
             case 3:
@@ -103,6 +111,9 @@ public class RoundManager : MonoBehaviour
                 break;
             case 1:
                 caseLoader.LoadNextCase(casePosition1);
+
+
+                
                 break;
             default:
                 Debug.LogError("Invalid number of cases in this round");
@@ -110,13 +121,16 @@ public class RoundManager : MonoBehaviour
 
         }
 
-        caseOffset = nCases;
+        caseOffset += nCases;
+
 
         onStart[roundIndex].Invoke();
 
+        FileHolder fh = fileHolder.GetComponent<FileHolder>();
+        fh.allcases = nCases;
     }
 
-    private void EndRound()
+    public void EndRound()
     {
         // End the round
         Debug.Log("Round ended!");
@@ -184,27 +198,50 @@ public class RoundManager : MonoBehaviour
 
         fb.ResetFeedback();
 
-        // attemptNr, RoundNr, Correct, miss, incorrect , failed
 
-        //attemptNr , CaseName,  Solution
-        int failedCases = 0;
-        int wonCases = 0;
-
-        for (int i = 0; i < caseOffset; i++)
+        switch (casePerRound[roundIndex])
         {
-            if (i >= fh.nCasesDelivered)
-            {
-                failedCases++;
+            case 3:
+                CaseFile cf1 = casePosition1.GetComponent<CaseFile>();
+                CaseFile cf2 = casePosition2.GetComponent<CaseFile>();
+                CaseFile cf3 = casePosition3.GetComponent<CaseFile>();
 
-            }
-            else
-            {
-                fb.addCase(fh.caseFiles[i]);
-                wonCases++;
-            }
+                fb.addCase(cf1);
+                fb.addCase(cf2);
+                fb.addCase(cf3);
 
+
+                logger.AppendToSolutionLog(cf1.id, cf1.Solution());
+                logger.AppendToSolutionLog(cf2.id, cf2.Solution());
+                logger.AppendToSolutionLog(cf3.id, cf3.Solution());
+
+                break;
+            case 2:
+                CaseFile cf_1 = casePosition1.GetComponent<CaseFile>();
+                CaseFile cf_2 = casePosition2.GetComponent<CaseFile>();
+               
+
+                fb.addCase(cf_1);
+                fb.addCase(cf_2);
+
+
+                logger.AppendToSolutionLog(cf_1.id, cf_1.Solution());
+                logger.AppendToSolutionLog(cf_2.id, cf_2.Solution());
+
+                break;
+            case 1:
+                CaseFile cf = casePosition1.GetComponent<CaseFile>();
+                fb.addCase(cf);
+
+                logger.AppendToSolutionLog(cf.id, cf.Solution());
+                break;
+            default:
+                Debug.LogError("Invalid number of cases in this round");
+                break;
 
         }
+
+
 
         fb.LoadFeedBack();
 
@@ -215,15 +252,25 @@ public class RoundManager : MonoBehaviour
         PlayerPrefs.SetInt("Round", roundIndex);
         PlayerPrefs.SetInt("caseOffset", caseOffset);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (roundIndex < casePerRound.Length)
+        {
 
-        
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        }
+
+
         Debug.Log("THE FEED Back is Here ");
 
 
 
 
 
+    }
+
+    public void ClickerLog()
+    {
+        logger.gameObject.GetComponent<clickerLogger>().Log();
     }
 
 

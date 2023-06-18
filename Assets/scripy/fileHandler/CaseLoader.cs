@@ -11,7 +11,7 @@ public class CaseLoader : MonoBehaviour
     public  List<CaseFile> caseFiles; // List to store loaded case files
     public GameObject fileHolder;
 
-    public int caseCounter = 0;
+    public int caseCounter;
 
 
 
@@ -20,6 +20,7 @@ public class CaseLoader : MonoBehaviour
     {
         caseFiles = new List<CaseFile>();
         LoadSubdirectories();
+       
 
     }
 
@@ -42,11 +43,14 @@ public class CaseLoader : MonoBehaviour
                 caseFile.photo = Resources.Load<Sprite>(caseFile.id + "/rep_photo");
                 caseFile.png_blue= Resources.Load<Sprite>(caseFile.id + "/photoB");
                 caseFile.png_red= Resources.Load<Sprite>(caseFile.id + "/photoR");
+                caseFile.annex = Resources.Load<Sprite>(caseFile.id + "/annex");
                 caseFile.png_green = Resources.Load<Sprite>(caseFile.id+ "/photoG");
                 caseFile.fb_sup = File.ReadAllText(Path.Combine(path, "fbrep_Sup.txt"));
                 caseFile.fb_close = File.ReadAllText(Path.Combine(path, "fbrep_close.txt"));
                 caseFile.fb_dispatch = File.ReadAllText(Path.Combine(path, "fbrep_dispatch.txt"));
                 caseFile.fileHolder = fileHolder;
+
+                caseFile.BuildDictionary(File.ReadAllText(Path.Combine(path, "Solution.txt")));
 
                 caseFiles.Add(caseFile); // Add the CaseFile object to the list
             }

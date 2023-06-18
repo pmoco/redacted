@@ -182,7 +182,7 @@ public class MenuManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("Round", 0);
 
-        PlayerPrefs.SetInt("CaseOffset", 0);
+        PlayerPrefs.SetInt("caseOffset", 0);
 
         timer = 0f;
         state = "Leave";        

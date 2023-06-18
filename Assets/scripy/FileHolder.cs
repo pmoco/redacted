@@ -10,8 +10,8 @@ public class FileHolder : MonoBehaviour
 
     public List<GameObject> files;
 
-
-
+    public GameObject endButton;
+    public int allcases;
 
     // Start is called before the first frame update
     void Start()
@@ -32,13 +32,17 @@ public class FileHolder : MonoBehaviour
         
     }
 
-    public void addCaseFile(CaseFile cf)
+    public void addCaseFile(CaseFile cf  )
     {
         caseFiles.Add(cf);
 
         files[nCasesDelivered].SetActive(true);
         nCasesDelivered++;
         
+        if (nCasesDelivered >= allcases)
+        {
+            endButton.SetActive(true);
+        }
 
     }
 

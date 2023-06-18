@@ -1,16 +1,15 @@
-Informações Gerais
-Nome de Código:
-'Possesive Mask'
+<b>Informações Gerais</b>
+<size=90%> Nome de Código: <i>'Possesive Mask'</i>
 Escala de Risco: Grave
 Localização: <mark=#000000>000000000</mark>
-Classe de Objeto: Desconhecido
+Classe de Objeto: Desconhecido</size>
 
 Police on site report 
 Uma atriz infantil extremamente famosa está desaparecida, o alerta foi dado
 pela encenador da peça que reportou a sua ausência para o ensaio geral. No
 camarim uma substância viscosa foi encontrada nas suas roupas. A atriz foi
-ligada ao Teatro███████ onde irá realizar o papel principal na famosa peça
-█████████████ ██████████. Os encenadores declararam que na sala de adereços as máscaras
+ligada ao Teatro <mark=#000000>000000000</mark> onde irá realizar o papel principal na famosa peça
+<mark=#000000>0000000</mark> <mark=#000000>00000</mark>. Os encenadores declararam que na sala de adereços as máscaras
 que iriam ser usadas na peça foram derretidas por uma substância viscosa
 preta semelhante à encontrada nas roupas. A policia local já foi notoficada e
 vai a caminho.

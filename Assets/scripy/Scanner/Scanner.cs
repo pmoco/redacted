@@ -26,6 +26,7 @@ public class Scanner : MonoBehaviour
 
     public GameObject canvas;
 
+    public LogCounter logCounter;
 
 
 
@@ -40,6 +41,8 @@ public class Scanner : MonoBehaviour
         currentFile = null;
 
         canvas = screen.transform.Find("imageOnScreen").Find("Canvas").gameObject;
+
+        logCounter =  gameObject.GetComponent<LogCounter>();
 
 
     }
@@ -81,6 +84,8 @@ public class Scanner : MonoBehaviour
                         timer = 0f;
                         isCounting = true;
                         canvas.SetActive(true);
+
+                        logCounter.Increment();
                     }
                     else if (hit.collider == blue)
                     {
@@ -88,8 +93,10 @@ public class Scanner : MonoBehaviour
                         timer = 0f;
                         isCounting = true;
                         canvas.SetActive(true);
+                        logCounter.Increment();
 
-                        
+
+
                     }
                     else if (hit.collider == green)
                     {
@@ -97,6 +104,8 @@ public class Scanner : MonoBehaviour
                         timer = 0f;
                         isCounting = true;
                         canvas.SetActive(true);
+                        logCounter.Increment();
+
 
                     }
 
@@ -138,7 +147,10 @@ public class Scanner : MonoBehaviour
 
 
 
-
+    public void EndTimer()
+    {
+        timer = 1000000000f;
+    }
 
 
 

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
+using TMPro;
+
 public class FeedBackReportHandler : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -58,7 +60,7 @@ public class FeedBackReportHandler : MonoBehaviour
         {
             GameObject  pos = position[x];
 
-            Text fbText = pos.transform.Find("closeUp").Find("Canvas").Find("Text").GetComponent<Text>();
+            TMP_Text fbText = pos.transform.Find("closeUp").Find("Canvas").Find("Text").GetComponent<TMP_Text>();
 
             switch (cf.decision)
             {

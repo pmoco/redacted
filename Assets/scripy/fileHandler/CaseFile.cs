@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
+using TMPro;
+using static CaseFile;
+
 
 [System.Serializable]
 public class CaseFile : MonoBehaviour
@@ -16,6 +19,15 @@ public class CaseFile : MonoBehaviour
         Supernatural,
         Ignore
     }
+
+    public enum Value
+    {
+        FAILED,
+        WRONG,
+        INCORRECT,
+        CORRECT
+    }
+
 
     public string id;
     public Sprite sprite;
@@ -35,8 +47,14 @@ public class CaseFile : MonoBehaviour
     public  Sprite png_blue;
     public Sprite png_green;
     public Sprite reading;
+    public Sprite annex;
 
     public GameObject fileHolder;
+
+    
+
+
+
 
 
     void Start()
@@ -68,6 +86,19 @@ public class CaseFile : MonoBehaviour
         fb_close = cf.fb_close;
         fb_dispatch = cf.fb_dispatch;
         fileHolder = cf.fileHolder;
+        annex =cf.annex;
+
+
+
+        decisionDictionary = cf.decisionDictionary;
+
+
+
+
+
+
+
+
 
         // Optionally, you can also call the Load() function to load the sprites using the specified paths
         loadVariables();
@@ -81,6 +112,17 @@ public class CaseFile : MonoBehaviour
         
         Transform open = transform.Find("Open");
         Transform file = open.transform.Find("File");
+         
+        if ( annex !=  null )
+        {
+            Transform mark =file.transform.Find("Mark");
+            SpriteRenderer spriteRenderer = mark.GetComponent<SpriteRenderer>();
+
+
+            spriteRenderer.sprite = annex;
+        }
+
+
         Transform png = open.transform.Find("photo");
 
         Transform text = file.transform.Find("Canvas").transform.Find("Text");
@@ -139,7 +181,7 @@ public class CaseFile : MonoBehaviour
             Debug.Log("slçdkfhasjdbg");
             Debug.Log(text);
 
-            Text t = text.GetComponent<Text>();
+            TMP_Text t = text.GetComponent<TMP_Text>();
 
             t.text = report;
 
@@ -206,6 +248,77 @@ public class CaseFile : MonoBehaviour
     }
 
 
+    private Dictionary<Decision, Value> decisionDictionary = new Dictionary<Decision, Value>();
 
 
+    public void BuildDictionary(string format)
+    {
+        decisionDictionary.Clear();
+
+        // Split the format string into individual assignments
+        string[] assignments = format.Split(',');
+
+        // Process each assignment and add it to the dictionary
+        foreach (string assignment in assignments)
+        {
+            // Split the assignment into key and value
+            string[] parts = assignment.Trim().Split('=');
+
+            if (parts.Length == 2)
+            {
+                // Trim the key and value strings
+                string keyString = parts[0].Trim();
+                string valueString = parts[1].Trim();
+
+                // Parse the key and value enums
+                Decision key;
+                Value value;
+
+                if (Enum.TryParse(keyString, out key) && Enum.TryParse(valueString, out value))
+                {
+                    // Add the key-value pair to the dictionary
+                    decisionDictionary[key] = value;
+                }
+                else
+                {
+                    Debug.LogWarning($"Failed to parse assignment: {assignment}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Invalid assignment format: {assignment}");
+            }
+        }
+
+        // Add NULL key with the value of FAILED
+        decisionDictionary[Decision.NULL] = Value.FAILED;
     }
+
+    public string Solution()
+    {
+        if (decisionDictionary.ContainsKey(decision))
+        {
+            return decisionDictionary[decision].ToString();
+        }
+        else
+        {
+            Debug.LogWarning($"No solution found for decision: {decision}");
+            return Value.FAILED.ToString();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
