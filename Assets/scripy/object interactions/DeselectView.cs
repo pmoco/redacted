@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DeselectView : MonoBehaviour
 {
@@ -11,8 +12,12 @@ public class DeselectView : MonoBehaviour
 
 
     public Collider[] collidersToIgnore; // Array of colliders to ignore
-    
-   private bool ArrayContainsCollider(Collider[] colliders, Collider collider)
+
+
+    public UnityEvent onExit;
+
+
+    private bool ArrayContainsCollider(Collider[] colliders, Collider collider)
     {
         foreach (Collider c in colliders)
         {
@@ -49,14 +54,14 @@ bool isFirstClick = true;
                     if (!ArrayContainsCollider(collidersToIgnore, hit.collider))
                     {
                         // Mouse click was outside of the colliderToCheck
-                        Debug.Log("Mouse click was peepeepoopoo");
+
                         gameObject.SetActive(false);
                             
                         if (ObjectReturn != null)
                             ObjectReturn.SetActive(true);
 
                         // Mouse click was outside of any collider
-                        Debug.Log("Mouse click was outside of any collider");
+                        onExit.Invoke();
                         isFirstClick = true;
                         // Place your logic here to show the object and hide the object containing the script
                     }
@@ -67,14 +72,13 @@ bool isFirstClick = true;
                 else
                 {
 
-                    Debug.Log("Mouse click was outside of the colliderXXXXXX");
+                    onExit.Invoke();
                     gameObject.SetActive(false);
 
                     if (ObjectReturn != null)
                         ObjectReturn.SetActive(true);
 
                     // Mouse click was outside of any collider
-                    Debug.Log("Mouse click was outside of any collider");
                     isFirstClick = true;
 
                 // Place your logic here to show the object and hide the object containing the script

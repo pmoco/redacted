@@ -9,7 +9,6 @@ public class SendToScanner : MonoBehaviour
     private void OnMouseDown()
     {
 
-        Debug.Log("kjsfklabnsdkfn");
         // Find the GameObject named "scanner"
         GameObject scannerObject = GameObject.Find("scanner");
 

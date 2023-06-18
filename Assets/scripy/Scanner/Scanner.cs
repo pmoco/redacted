@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 public class Scanner : MonoBehaviour
 {
@@ -14,6 +16,19 @@ public class Scanner : MonoBehaviour
     CaseFile currentFile;
 
 
+    public GameObject screen;
+
+    private bool isCounting=false;
+    private float timer=0f;
+
+    private string color="";
+    public int loadingTime = 30;
+
+    public GameObject canvas;
+
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +38,10 @@ public class Scanner : MonoBehaviour
         green = transform.Find("greenButton").GetComponent<Collider>();
         photoCollider = transform.Find("photo").GetComponent<Collider> ();
         currentFile = null;
+
+        canvas = screen.transform.Find("imageOnScreen").Find("Canvas").gameObject;
+
+
     }
 
     // Update is called once per frame
@@ -30,7 +49,7 @@ public class Scanner : MonoBehaviour
 
     private void Update()
     {
-        if (currentFile != null)
+        if (currentFile != null && !isCounting)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -58,22 +77,63 @@ public class Scanner : MonoBehaviour
 
                     if (hit.collider == red)
                     {
-                        Debug.Log("red");
-                        RedProcess();
+                        color = "red";
+                        timer = 0f;
+                        isCounting = true;
+                        canvas.SetActive(true);
                     }
                     else if (hit.collider == blue)
                     {
-                        BlueProcess();
+                        color = "blue";
+                        timer = 0f;
+                        isCounting = true;
+                        canvas.SetActive(true);
+
+                        
                     }
                     else if (hit.collider == green)
                     {
-                        GreenProcess();
+                        color = "green";
+                        timer = 0f;
+                        isCounting = true;
+                        canvas.SetActive(true);
+
                     }
 
                     Debug.Log(hit.collider.name);
                 }
             }
         }
+        else if (isCounting)
+        {
+            timer += Time.deltaTime;
+            if (timer >= loadingTime)
+            {
+                switch (color)
+                {
+                    case "red":
+                        RedProcess();
+
+                        break;
+                    case "blue":
+                        BlueProcess();
+                        break;
+                    case "green":
+                        GreenProcess();
+                        break;
+                }
+                canvas.SetActive(false);
+                isCounting = false;
+            }
+
+            Text percentage = screen.transform.Find("imageOnScreen").Find("Canvas").Find("percentage").gameObject.GetComponent<Text>();
+
+
+            percentage.text = timer *100 / loadingTime +"%";
+
+
+        }
+
     }
 
 
@@ -159,8 +219,6 @@ public class Scanner : MonoBehaviour
             currentFile = null;
         }
     }
-
-
 
 
 

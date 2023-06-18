@@ -2,7 +2,7 @@ Informações Gerais
 Nome de Código:
 'Possesive Mask'
 Escala de Risco: Grave
-Localização: █████████████████
+Localização: <mark=#000000>000000000</mark>
 Classe de Objeto: Desconhecido
 
 Police on site report 

@@ -9,17 +9,17 @@ public class CaseLoader : MonoBehaviour
 
     
     public  List<CaseFile> caseFiles; // List to store loaded case files
+    public GameObject fileHolder;
+
+    public int caseCounter = 0;
+
+
+
 
     void Start()
     {
         caseFiles = new List<CaseFile>();
         LoadSubdirectories();
-
-        gameObject.GetComponentInChildren<CaseFile>().LoadExternalCaseFile(caseFiles[0]);
-        
-
-
-
 
     }
 
@@ -46,8 +46,7 @@ public class CaseLoader : MonoBehaviour
                 caseFile.fb_sup = File.ReadAllText(Path.Combine(path, "fbrep_Sup.txt"));
                 caseFile.fb_close = File.ReadAllText(Path.Combine(path, "fbrep_close.txt"));
                 caseFile.fb_dispatch = File.ReadAllText(Path.Combine(path, "fbrep_dispatch.txt"));
-
-
+                caseFile.fileHolder = fileHolder;
 
                 caseFiles.Add(caseFile); // Add the CaseFile object to the list
             }
@@ -58,18 +57,28 @@ public class CaseLoader : MonoBehaviour
         {
             // Use the loaded case file data as needed
             Debug.Log("Paths for CaseFile " + caseFile.id + ":");
-            Debug.Log("Report: " + caseFile.report);
-
-
-            Debug.Log("Feedback Sup: " + caseFile.fb_sup);
-            Debug.Log("Feedback Close: " + caseFile.fb_close);
-            Debug.Log("Feedback Dispatch: " + caseFile.fb_dispatch);
-
-            Debug.Log("PHOTO : " + caseFile.photo.name);
             Debug.Log("-------------------------------------------");
             // ...
         }
     }
+
+    public void LoadNextCase (GameObject target) {
+
+        if (caseCounter < caseFiles.Count)
+        {
+
+            target.GetComponent<CaseFile>().LoadExternalCaseFile(caseFiles[caseCounter]);
+
+            Debug.Log("Loadeded CaseFile " + caseFiles[caseCounter].id + " on "+ target.name);
+
+            target.SetActive(true);
+            caseCounter++;
+        }
+
+
+    }
+
+
 
 
 

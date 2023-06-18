@@ -3,8 +3,9 @@ using UnityEngine;
 public class Clickable : MonoBehaviour
 {
     public Texture2D clickCursor; // Reference to the click cursor texture
+    public Vector2 cursorHotspot;
     private Texture2D oldCursor;
-    public Vector2 cursorHotspot ;
+    
 
     private void Start()
     {

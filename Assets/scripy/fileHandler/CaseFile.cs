@@ -36,6 +36,7 @@ public class CaseFile : MonoBehaviour
     public Sprite png_green;
     public Sprite reading;
 
+    public GameObject fileHolder;
 
 
     void Start()
@@ -66,6 +67,7 @@ public class CaseFile : MonoBehaviour
         fb_sup = cf.fb_sup;
         fb_close = cf.fb_close;
         fb_dispatch = cf.fb_dispatch;
+        fileHolder = cf.fileHolder;
 
         // Optionally, you can also call the Load() function to load the sprites using the specified paths
         loadVariables();
@@ -76,7 +78,7 @@ public class CaseFile : MonoBehaviour
     private void loadVariables()
     {
         Transform table = transform.Find("onTable");
-        Transform deliver = transform.Find("Deliverspot");
+        
         Transform open = transform.Find("Open");
         Transform file = open.transform.Find("File");
         Transform png = open.transform.Find("photo");
@@ -101,20 +103,7 @@ public class CaseFile : MonoBehaviour
             Debug.LogError("Child object named 'onTable' not found!");
         }
 
-        if (deliver != null)
-        {
-            SpriteRenderer spriteRenderer = deliver.GetComponent<SpriteRenderer>();
 
-            if (spriteRenderer != null)
-            {
-                spriteRenderer.sprite = sprite;
-            }
-        }
-
-        else
-        {
-            Debug.LogError("Child object named 'Deliverspot' not found!");
-        }
 
         // Check if the child object is found
         if (file != null)
@@ -166,10 +155,8 @@ public class CaseFile : MonoBehaviour
 
     public void DeliverCase()
     {
-        GameObject feedback = transform.Find("feedBack").gameObject;
-        SpriteRenderer sp = feedback.transform.Find("closeUp").GetComponent<SpriteRenderer>();
-
-
+        FileHolder fh = fileHolder.GetComponent<FileHolder>();
+        fh.addCaseFile(gameObject.GetComponent<CaseFile>());
 
        //switch (decision)
        // {
@@ -185,7 +172,7 @@ public class CaseFile : MonoBehaviour
 
        // }
 
-        feedback.SetActive(true);
+        //feedback.SetActive(true);
 
 
     }
